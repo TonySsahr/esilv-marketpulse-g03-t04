@@ -16,7 +16,7 @@ def filter_prices(prices, ticker):
 def main():
 ```
 5. Where are the input files stored?
-`/data
+`/data`
 
 ## Write 2 small helpers
 ### Obtaining 1st price
@@ -24,11 +24,13 @@ def main():
 def get_first_close(prices):
     return prices[0]["close"]
 ```
+Get the value inside the 1st line (index 0), at column close
 ### Obtaining last price
 ```python
 def get_last_close(prices):
     return prices[-1]["close"]
 ```
+Get the value inside the last line (index -1), at column close
 ## Make reusable summary
 ```python
 def display_market_summary(asset, prices, show_currency=True):
@@ -37,6 +39,8 @@ def display_market_summary(asset, prices, show_currency=True):
     print(f"First close: {get_first_close(prices)}", (asset['currency'] if show_currency else ''))
     print(f"Last close: {get_last_close(prices)}", (asset['currency'] if show_currency else ''))
 ```
+Show the variables with the json
+Then use the 2 helper function to show the price, in the end the currency if shown only if show_currency is true, with condition integrated in print
 ## Final run
 ```python
 def main():
@@ -63,4 +67,5 @@ def main():
     print()
     print()
 ```
+Main just reuse the JSON values, and `display_market_summary` to print the result.
 ![alt text](assets/main-output.png)
