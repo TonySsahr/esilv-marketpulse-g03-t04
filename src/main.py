@@ -31,10 +31,21 @@ def get_first_close(prices):
 def get_last_close(prices):
     return prices[-1]["close"]
 
+def get_first_date(prices):
+    return prices[0]["date"]
+
+def get_last_date(prices):
+    return prices[-1]["date"]
+
+def get_market(asset):
+    return asset["market"]
 
 def display_market_summary(asset, prices, show_currency=True):
     print(f"{asset['ticker']} - {asset['name']}")
     print(f"{asset['ticker']}: {len(prices)}")
+    print(f"Market : {get_market(asset)}")
+    print(f"First date: {get_first_date(prices)}", (asset['currency'] if show_currency else ''))
+    print(f"Last date: {get_last_date(prices)}", (asset['currency'] if show_currency else ''))
     print(f"First close: {get_first_close(prices)}", (asset['currency'] if show_currency else ''))
     print(f"Last close: {get_last_close(prices)}", (asset['currency'] if show_currency else ''))
 
@@ -68,9 +79,14 @@ def main():
     display_market_summary(benchmark, benchmark_prices, show_currency=False)
     print()
     print()
+<<<<<<< HEAD
     print(f"First date : {get_first_date(prices)}")
     print(f"Last date : {get_last_date(prices)}")
     
+=======
+    print(f"First date: {get_first_date(prices)}")
+    print(f"Last date: {get_last_date(prices)}")
+>>>>>>> d3697eb449888e5434114f8626b05223780d080a
 
 
 if __name__ == "__main__":
