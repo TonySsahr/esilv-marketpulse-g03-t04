@@ -38,6 +38,13 @@ def display_market_summary(asset, prices, show_currency=True):
     print(f"First close: {get_first_close(prices)}", (asset['currency'] if show_currency else ''))
     print(f"Last close: {get_last_close(prices)}", (asset['currency'] if show_currency else ''))
 
+def get_first_date(prices):
+    return prices[0]["date"]
+
+
+def get_last_date(prices):
+    return prices[-1]["date"]
+
 def main():
     instruments = load_instruments()
     prices = load_prices()
@@ -61,6 +68,8 @@ def main():
     display_market_summary(benchmark, benchmark_prices, show_currency=False)
     print()
     print()
+    print(f"First date: {get_first_date(prices)}")
+    print(f"Last date: {get_last_date(prices)}")
 
 
 if __name__ == "__main__":
