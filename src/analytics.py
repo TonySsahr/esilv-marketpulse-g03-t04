@@ -7,7 +7,10 @@ def align_series(instrument_prices, benchmark_prices):
 
 
 def calculate_period_return(prices):
-    raise NotImplementedError  # Owner: see team table
+    first_close = float(prices[0]["close"])
+    last_close = float(prices[-1]["close"])
+    return ((last_close / first_close) - 1.0) * 100.0
+
 
 
 def calculate_base_100(prices):
