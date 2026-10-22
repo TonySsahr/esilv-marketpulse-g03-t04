@@ -100,11 +100,6 @@ def main():
     print(f"{instrument["ticker"]}   : 100.00 -> {100+instrument_return}")
     print(f"{benchmark["ticker"]}   : 100.00 -> {100+benchmark_return}")
 
-# AAPL   : 100.00 -> 106.48
-# SP500  : 100.00 -> 102.15
-    
-    
-
 
 if __name__ == "__main__":
     main()
