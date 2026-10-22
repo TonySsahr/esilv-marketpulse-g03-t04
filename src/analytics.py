@@ -14,8 +14,19 @@ def calculate_period_return(prices):
 
 
 def calculate_base_100(prices):
-    raise NotImplementedError  # Owner: see team table
+    if not prices:
+        raise ValueError("Price series cannot be empty.")
+    first_close = float(prices[0]["close"])
+    if first_close == 0:
+        raise ValueError("First close price cannot be zero.")
 
+    base_100_series = []
+    for obs in prices:
+        val = (float(obs["close"]) / first_close) * 100.0
+        base_100_series.append(
+            {"date": obs["date"], "ticker": obs["ticker"], "value": val}
+        )
+    return base_100_series
 
 def calculate_relative_performance(instrument_return, benchmark_return):
     return instrument_return - benchmark_return
