@@ -12,6 +12,13 @@ LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
 
 
+from analytics import (
+    align_series,
+    calculate_period_return,
+    calculate_base_100,
+    calculate_relative_performance,
+)
+
 def load_instruments():
     with open(DATA_DIR / "instruments.json", encoding="utf-8") as file:
         return json.load(file)
@@ -52,12 +59,6 @@ def display_market_summary(asset, prices, show_currency=True):
     print(f"First close: {get_first_close(prices)}", (asset['currency'] if show_currency else ''))
     print(f"Last close: {get_last_close(prices)}", (asset['currency'] if show_currency else ''))
 
-def get_first_date(prices):
-    return prices[0]["date"]
-
-
-def get_last_date(prices):
-    return prices[-1]["date"]
 
 def main():
     instruments = load_instruments()
@@ -85,7 +86,19 @@ def main():
     print()
     print(f"Start Date: {get_first_date(prices)}")
     print(f"End Date:   {get_last_date(prices)}")
-    
+    print()
+    print("Comparison (aligned)")
+    aligned = align_series(instrument_prices,benchmark_prices)
+    print(f"Aligned sessions     : {len(aligned[0])}")
+    instrument_return=calculate_period_return(instrument_prices)
+    benchmark_return=calculate_period_return(benchmark_prices)
+    print(f"{instrument['ticker']} period return    : {'+' if instrument_return > 0 else ''}{instrument_return}%")
+    print(f"{benchmark['ticker']} period return    : {'+' if benchmark_return > 0 else ''}{benchmark_return}%")
+    print(f"Relative Performance    : {calculate_relative_performance(instrument_return,benchmark_return)}")
+    print()
+    print("Base 100")
+    print(f"{instrument["ticker"]}   : 100.00 -> {100+instrument_return}")
+    print(f"{benchmark["ticker"]}   : 100.00 -> {100+benchmark_return}")
 
 
 if __name__ == "__main__":
