@@ -3,7 +3,7 @@ def index_by_date(prices):
 
 
 def align_series(instrument_prices, benchmark_prices):
-    return instrument_return - benchmark_return
+    raise NotImplementedError  # Owner: Lead
 
 
 def calculate_period_return(prices):
@@ -15,5 +15,4 @@ def calculate_base_100(prices):
 
 
 def calculate_relative_performance(instrument_return, benchmark_return):
-    raise NotImplementedError  # Owner: see team table
-
+    return instrument_return - benchmark_return
