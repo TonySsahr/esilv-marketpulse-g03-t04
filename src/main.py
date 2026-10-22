@@ -21,6 +21,9 @@ def load_prices():
     with open(DATA_DIR / "prices.csv", encoding="utf-8") as file:
         return list(csv.DictReader(file))
 
+def load_provider_label():
+    with open(DATA_DIR / "bloomberg_reference_sample.json", encoding="utf-8") as file:
+        return json.load(file)["provider_stage"]
 
 def filter_prices(prices, ticker):
     return [row for row in prices if row["ticker"] == ticker]
@@ -71,6 +74,7 @@ def main():
     print("Market configuration")
     print(f"Period: {LOOKBACK_LABEL}")
     print(f"Interval: {INTERVAL_LABEL}")
+    print(f"Provider: {load_provider_label()}")
     print()
     print("Instrument")
     display_market_summary(instrument, instrument_prices)
@@ -79,14 +83,9 @@ def main():
     display_market_summary(benchmark, benchmark_prices, show_currency=False)
     print()
     print()
-<<<<<<< HEAD
-    print(f"First date : {get_first_date(prices)}")
-    print(f"Last date : {get_last_date(prices)}")
-    
-=======
     print(f"First date: {get_first_date(prices)}")
     print(f"Last date: {get_last_date(prices)}")
->>>>>>> d3697eb449888e5434114f8626b05223780d080a
+
 
 
 if __name__ == "__main__":
