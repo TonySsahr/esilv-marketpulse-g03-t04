@@ -81,6 +81,7 @@ def main():
     print()
     print(f"Start Date: {get_first_date(prices)}")
     print(f"End Date:   {get_last_date(prices)}")
+    
 
 
 if __name__ == "__main__":
