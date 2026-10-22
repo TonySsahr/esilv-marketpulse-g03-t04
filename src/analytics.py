@@ -1,9 +1,9 @@
 def index_by_date(prices):
-    raise NotImplementedError  # Owner: see team table
+    return {observation["date"]: observation for observation in prices}
 
 
 def align_series(instrument_prices, benchmark_prices):
-    raise NotImplementedError  # Owner: Lead
+    return instrument_return - benchmark_return
 
 
 def calculate_period_return(prices):
