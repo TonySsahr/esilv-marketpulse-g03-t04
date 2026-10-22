@@ -26,7 +26,7 @@ def align_series(instrument_prices, benchmark_prices):
 def calculate_period_return(prices):
     first_close = float(prices[0]["close"])
     last_close = float(prices[-1]["close"])
-    return ((last_close / first_close) - 1.0) * 100.0
+    return round(((last_close / first_close) - 1.0) * 100.0,2)
 
 
 
