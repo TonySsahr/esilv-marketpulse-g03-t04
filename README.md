@@ -204,6 +204,30 @@ These are the two canonical CORE runtime commands.
 
 The instructor starter repository does not necessarily contain every later-stage student file on day one. Files appear progressively during the lab sequence.
 
+## How to run MarketPulse (step by step)
+
+1. Open a terminal in the **project root folder** (the folder that contains `src/` and `data/`).
+2. Check that Python 3 is available:
+
+```bash
+   python --version
+```
+
+3. Run the application:
+
+```bash
+   python src/main.py
+```
+
+4. The terminal prints a summary of the sample data for the instrument (`AAPL`) and its benchmark (`SP500`): market, first and last dates, first and last close.
+
+Notes:
+
+- The command must be run from the project root, otherwise the path `src/main.py` is not found.
+- The starter stage reads the local sample data in `data/sample/` and needs no extra package.
+- If `python` is not recognized, try `python3 src/main.py`.
+- If you see a `SyntaxError` mentioning `<<<<<<<`, a merge conflict was committed in the file: do not run the program until it is resolved.
+
 ## Installation
 
 The starter TD01-TD02 path uses only the Python standard library.
