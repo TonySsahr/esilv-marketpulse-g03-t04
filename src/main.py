@@ -83,9 +83,9 @@ def main():
     display_market_summary(benchmark, benchmark_prices, show_currency=False)
     print()
     print()
-    print(f"First date: {get_first_date(prices)}")
-    print(f"Last date: {get_last_date(prices)}")
-
+    print(f"Start Date: {get_first_date(prices)}")
+    print(f"End Date:   {get_last_date(prices)}")
+    
 
 
 if __name__ == "__main__":
