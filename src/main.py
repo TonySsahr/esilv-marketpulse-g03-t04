@@ -96,7 +96,7 @@ def main():
     print("Market configuration")
     print(f"Period: {LOOKBACK_LABEL}")
     print(f"Interval: {INTERVAL_LABEL}")
-    print(f"Provider: {load_provider_label()}")
+    print(f"Provider: {PROVIDER}")
     print()
     print("Instrument")
     display_market_summary(instrument, instrument_prices)
