@@ -1,6 +1,8 @@
 from pathlib import Path
 import csv
 import json
+from providers.yahoo_provider import fetch_yahoo_prices 
+
 
 
 DATA_DIR = Path("data/sample")
@@ -61,8 +63,27 @@ def display_market_summary(asset, prices, show_currency=True):
 
 
 def main():
-    instruments = load_instruments()
     prices = load_prices()
+    instruments = load_instruments()
+    instrument = instruments["instrument"]
+    benchmark = instruments["benchmark"]
+
+    # --- NOUVEAU : Choix du fournisseur ---
+    PROVIDER = "yahoo"   # Remplace par "csv" pour revenir à l'ancien comportement
+
+    if PROVIDER == "yahoo":
+        # On utilise le nouvel adaptateur pour récupérer les données en direct
+        # Les arguments attendus par la fonction sont (ticker, lookback, intervalle)
+        instrument_prices = fetch_yahoo_prices(instrument["ticker"], "1mo", "1d")
+        benchmark_prices = fetch_yahoo_prices(benchmark["ticker"], "1mo", "1d")
+        
+        # On recrée une variable "prices" globale pour éviter de faire planter tes "print" plus bas
+        prices = instrument_prices + benchmark_prices 
+    else:
+        # L'ancien système de chargement CSV
+        prices = load_prices()
+        instrument_prices = filter_prices(prices, instrument["ticker"])
+        benchmark_prices = filter_prices(prices, benchmark["ticker"])
 
     instrument = instruments["instrument"]
     benchmark = instruments["benchmark"]
@@ -75,7 +96,7 @@ def main():
     print("Market configuration")
     print(f"Period: {LOOKBACK_LABEL}")
     print(f"Interval: {INTERVAL_LABEL}")
-    print(f"Provider: {load_provider_label()}")
+    print(f"Provider: {PROVIDER}")
     print()
     print("Instrument")
     display_market_summary(instrument, instrument_prices)
