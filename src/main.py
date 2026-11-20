@@ -1,13 +1,12 @@
 from pathlib import Path
 import csv
 import json
+from providers.yahoo_provider import fetch_yahoo_prices 
+
 
 
 DATA_DIR = Path("data/sample")
 
-# These starter values mirror config/settings.yml.
-# settings.yml is a human-readable configuration contract in the CORE.
-# Parsing YAML is optional and is not required by the 18-hour lab sequence.
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
 
@@ -23,7 +22,6 @@ def load_instruments():
     with open(DATA_DIR / "instruments.json", encoding="utf-8") as file:
         return json.load(file)
 
-
 def load_prices():
     with open(DATA_DIR / "prices.csv", encoding="utf-8") as file:
         return list(csv.DictReader(file))
@@ -33,7 +31,7 @@ def load_provider_label():
         return json.load(file)["provider_stage"]
 
 def filter_prices(prices, ticker):
-    return [row for row in prices if row["ticker"] == ticker]
+    return [row for row in prices if row['ticker'] == ticker]
 
 def get_first_close(prices):
     return prices[0]["close"]
@@ -62,20 +60,26 @@ def display_market_summary(asset, prices, show_currency=True):
 
 def main():
     instruments = load_instruments()
-    prices = load_prices()
-
     instrument = instruments["instrument"]
     benchmark = instruments["benchmark"]
 
-    instrument_prices = filter_prices(prices, instrument["ticker"])
-    benchmark_prices = filter_prices(prices, benchmark["ticker"])
+    PROVIDER = "yahoo"
+
+    if PROVIDER == "yahoo":
+        instrument_prices = fetch_yahoo_prices(instrument['ticker'], "1mo", "1d")
+        benchmark_prices = fetch_yahoo_prices(benchmark['ticker'], "1mo", "1d")
+        prices = instrument_prices + benchmark_prices 
+    else:
+        prices = load_prices()
+        instrument_prices = filter_prices(prices, instrument['ticker'])
+        benchmark_prices = filter_prices(prices, benchmark['ticker'])
 
     print("=== MarketPulse ===")
     print()
     print("Market configuration")
     print(f"Period: {LOOKBACK_LABEL}")
     print(f"Interval: {INTERVAL_LABEL}")
-    print(f"Provider: {load_provider_label()}")
+    print(f"Provider: {PROVIDER}")
     print()
     print("Instrument")
     display_market_summary(instrument, instrument_prices)
@@ -97,8 +101,8 @@ def main():
     print(f"Relative Performance    : {calculate_relative_performance(instrument_return,benchmark_return)}")
     print()
     print("Base 100")
-    print(f"{instrument["ticker"]}   : 100.00 -> {100+instrument_return}")
-    print(f"{benchmark["ticker"]}   : 100.00 -> {100+benchmark_return}")
+    print(f"{instrument['ticker']}   : 100.00 -> {100+instrument_return}")
+    print(f"{benchmark['ticker']}   : 100.00 -> {100+benchmark_return}")
 
 
 if __name__ == "__main__":
